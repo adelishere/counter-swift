@@ -4,21 +4,35 @@ struct ContentView: View {
     
     @State var x = 0
     @State private var warning = ""
-    
+    @State private var isDisabled = true
+    @State private var appearence = 0.0
+
 
 
     var body: some View {
         VStack {
             Text("you ate \(x) cookies")
             Button{
-                x += 1
-                if x >= 15 && x < 20{
+                if x >= 0 && x < 10 {
+                        x += 1
+                }
+                else if x >= 10 && x < 20{
                     warning = "don't eat so many cookies"
+                    x += 1
                 }else if x >= 20 && x < 30{
                     warning = "don't eat soooooo many cookies"
-                }else if x >= 30 {
+                    x += 1
+
+                }else if x >= 30 && x < 40{
                     warning = "you're gonna be dead 💀"
-                }            }label: {
+                    x += 1
+                }else if x >= 40 {
+                    warning = "you are banned from eating cookies 🚫"
+                    isDisabled = false
+                    appearence = 100.0
+                    
+                }
+            }label: {
                 Text("OM NOM NOM")
                     .padding(10)
                     .foregroundColor(.white)
@@ -30,6 +44,9 @@ struct ContentView: View {
             Button {
                 x = 0
                 warning = ""
+                isDisabled = true
+                appearence = 0.0
+
             }label: {
                 Text("clear")
                     .padding(10)
@@ -37,8 +54,9 @@ struct ContentView: View {
                     .background(.red)
                     .cornerRadius(10)
                     .shadow(color: .white.opacity(0.5), radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+                    .opacity(appearence)
                 
-            }
+            }.disabled(isDisabled)
 
             Text("\(warning)")
         }
